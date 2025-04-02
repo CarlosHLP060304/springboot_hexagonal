@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: "springboot_hexagonal"
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/products-api"
+    username: "postgres"
+    password: "@Senha123"
+  jpa:
+    hibernate:
+      ddl-auto: "update"
