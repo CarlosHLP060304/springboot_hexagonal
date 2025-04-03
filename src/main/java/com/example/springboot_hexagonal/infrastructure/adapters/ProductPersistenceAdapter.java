@@ -5,6 +5,7 @@ import com.example.springboot_hexagonal.domain.model.Product;
 import com.example.springboot_hexagonal.infrastructure.adapters.output.persistence.entity.ProductEntity;
 import com.example.springboot_hexagonal.infrastructure.adapters.output.persistence.mappers.ProductPersistenceMapper;
 import com.example.springboot_hexagonal.infrastructure.adapters.output.persistence.repository.ProductRepository;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -13,7 +14,7 @@ import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ProductPersistenceAdapter implements ProductPersistenceOutputPort {
 
     private final ProductRepository productRepository;

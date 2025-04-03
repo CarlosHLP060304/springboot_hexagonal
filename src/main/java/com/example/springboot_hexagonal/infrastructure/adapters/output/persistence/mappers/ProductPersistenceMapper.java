@@ -5,7 +5,7 @@ import com.example.springboot_hexagonal.infrastructure.adapters.output.persisten
 import org.springframework.web.bind.annotation.Mapping;
 import org.mapstruct.Mapper;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface ProductPersistenceMapper {
 
     ProductEntity toProductEntity(Product product);
