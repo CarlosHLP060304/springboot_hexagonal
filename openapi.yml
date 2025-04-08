@@ -1,0 +1,273 @@
+openapi: '3.0.3'
+info:
+  title: Product API
+  version: 1.0.0
+  description: >-
+    API for product management
+tags:
+  - name: Product Service
+paths:
+  /products:
+    post:
+      operationId: saveProduct
+      tags:
+        - Product Service
+      summary: Create the product
+      description: Creates the product
+      requestBody:
+        description: Product data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreateRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Not Authorized
+        '403':
+          description: Access Denied
+        '422':
+          description: Unprocessable Entity
+  /user/{userId}:
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getOneProduct
+      tags:
+        - Product Service
+      summary: Search the user
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Not Authorized
+        '403':
+          description: Access Denied
+        '404':
+          description: Not found
+        '422':
+          description: Unprocessable Entity
+    put:
+      operationId: updateProduct
+      tags:
+        - Product Service
+      summary: Update Product
+      requestBody:
+        description: Product data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreateRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Not Authorized
+        '403':
+          description: Access Denied
+        '404':
+          description: Not found
+        '422':
+          description: Unprocessable Entity
+    delete:
+      operationId: deleteProduct
+      tags:
+        - Product Service
+      summary: delete product
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteResponse'
+        '400':
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Not Authorized
+        '403':
+          description: Access Denied
+        '404':
+          description: Not found
+        '422':
+          description: Unprocessable Entity
+components:
+  schemas:
+    UserCreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 2
+          maxLength: 50
+          description: product name
+          example: coffee
+        value:
+          type: BigDecimal
+          description: product value
+          example: 9
+      required:
+        - name
+        - value
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: internal unique id created in boarding
+          example: bbc3fb5e-3050-4d05-a52d-bbe3201b6612
+        name:
+          type: string
+          minLength: 2
+          maxLength: 50
+          description: product name
+          example: coffee
+        value:
+          type: BigDecimal
+          description: product value
+          example: 9
+        createAt:
+          type: string
+          format: date-time
+          description: date and time the record was created, in UTC standard
+          example: '2023-01-01T18:00:01Z'
+    DeleteResponse:
+      type: object
+      properties:
+        deletedAt:
+          type: string
+          format: date-time
+          description: date and time the record was deleted, in UTC standard
+          example: '2023-01-01T18:00:01Z'
+        message:
+          type: string
+
+    EventCreateRequest:
+      type: object
+      properties:
+        ownerId:
+          type: string
+          format: uuid
+        eventName:
+          type: string
+          example: Java Event
+        date:
+          type: string
+          format: date
+          example: 2027-07-21
+        time:
+          type: string
+          example: '08:00:00'
+        participantsLimit:
+          type: integer
+      required:
+        - ownerId
+        - eventName
+        - date
+        - participantsLimit
+    EventResponse:
+      type: object
+      properties:
+        eventId:
+          type: string
+          format: uuid
+        ownerId:
+          type: string
+          format: uuid
+        eventName:
+          type: string
+          example: Java Event
+        date:
+          type: string
+          format: date
+          example: 2017-07-21
+        time:
+          type: string
+        participantsLimit:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+          description: date and time the record was created, in UTC standard
+          example: '2023-01-01T18:00:01Z'
+        featureFlag:
+          type: string
+    EventAddUserRequest:
+      type: object
+      properties:
+        cpf:
+          type: string
+    EventAddUserResponse:
+      type: object
+      properties:
+        addedAt:
+          type: string
+          format: date-time
+          description: date and time the record was deleted, in UTC standard
+          example: '2023-01-01T18:00:01Z'
+        message:
+          type: string
+
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error response code, related to the business
+          example: error
+        message:
+          type: string
+          description: Error response message, related to the business.
+          example: Error response message, related to the business, validation, or generic errors
+        details:
+          type: array
+          items:
+            type: string
+          description: Errors Validation
+          example: [ 'name: not null' ]
+        releaseAt:
+          type: string
+          format: date-time
+          description: Date and time error
+          example: '2023-01-01T18:00:01Z'
